@@ -53,15 +53,29 @@ class recommend_film:
               try:
                    #coneccion a la BD
                    conn = connection.Database(os.getenv("DB_URI"), os.getenv("DB_NAME", os.getenv("DB_COLL")))
+            
+            
+class recommend_film:
+         def __init__(self, api_key, base_url):
+              self.api_key = api_key
+              self.base_url = base_url
+              self.params = {"api_key": self.api_key}
+
+         def recommendation(self):
+              try:
+                   #coneccion a la BD
+                   conn = connection.Database(os.getenv("DB_URI"), os.getenv("DB_NAME", os.getenv("DB_COLL")))
 
                    #solicitar input del usuario
                    user_input = input("Ingrese los titulos de sus 3 peliculas preferidas: "), input("2 pelicula preferida"), input("3 pelicula preferida")
 
-                   #obtener director y año de la peliculas elegidas por el usuario
-                   user_movie = conn.coll.find_one({"title": user_input})
-                   if user_movie:
-                        year = user_movie.get("year")
-                        director = user_movie.get("director")
+                   #obtener titulo de la pelicula 
+                   user_movie = conn.find({"title": user_input})
+                   year = []
+                   director = []
+                   for movie in user_movie:
+                        year.append(movie.get('year'))
+                        director.append(movie.get('director'))
                    #realizar una query para encontrar peliculas similares en BD 
                    query = {
                         "$and":[
@@ -69,7 +83,7 @@ class recommend_film:
                              {"year" : year}
                         ]
                    }
-                   similar_movies = conn.coll.find(query)
+                   similar_movies = conn.find(query)
 
                    #mostrar resultados al usuario 
                    if similar_movies:
