@@ -5,7 +5,7 @@ st.subheader("Discover the three types of species that inhabit this wonderful ar
 
 st.markdown("***")
 
-st.image('./data/palmer.png')
+
 
 
 
