@@ -5,12 +5,3 @@ st.subheader("Discover new movies or series in our collection. Enter your three 
 
 st.button("Empecemos")
 st.slider("Cueantas recomendaciones quieres ver", 0, 50)
-
-
-
-
-
-
-
-
-
